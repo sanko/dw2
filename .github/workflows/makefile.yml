@@ -1,0 +1,25 @@
+name: Makefile CI
+
+on:
+  pull_request: ~
+  push: ~
+  schedule:
+    - cron: 42 5 * * 0
+  workflow_dispatch: ~
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: configure
+      run: .\configure.bat /target-x64 /tool-gcc /make-make
+
+    - name: Install dependencies
+      run: gmake CC=gcc
+
+    - name: Run check
+      run: make test
