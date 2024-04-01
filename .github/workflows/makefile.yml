@@ -1,0 +1,24 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: configure
+      run:  .\configure.bat /target-x64 /tool-gcc
+
+    - name: Install dependencies
+      run: gmake
+
+    - name: Run check
+      run: make test
